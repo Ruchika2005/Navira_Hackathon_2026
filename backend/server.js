@@ -1,11 +1,19 @@
-const express = require("express");
+const express = require('express');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+
+const authRoutes = require('./routes/authRoutes');
+
+dotenv.config();
+connectDB();
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Backend is running");
-});
+app.use(express.json());
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Routes
+app.use('/api/auth', authRoutes);
+
+app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
 });
